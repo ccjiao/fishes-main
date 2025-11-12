@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DrawAFish.com</title>
+    <meta name="description" content="Draw a fish and watch it swim in the global tank with everyone else's fish. Create, share, and vote on fish drawings.">
+    <meta name="keywords" content="draw a fish, fish drawing game, online drawing, fish tank, community art, digital drawing, draw fish online, fish art game">
+    <meta name="author" content="fifteen.games">
+    
+    <!-- Open Graph tags for social media -->
+    <meta property="og:title" content="Draw a Fish Dot Com">
+    <meta property="og:description" content="Draw a fish and watch it swim in the global tank with everyone else's fish. Create, share, and vote on fish drawings in this simple online drawing game.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://drawafish.com">
+    <meta property="og:image" content="https://drawafish.com/public/favicon.ico">
+    <meta property="og:site_name" content="DrawAFish.com">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@AldenHallak">
+    <meta name="twitter:title" content="Draw a Fish Dot COm">
+    <meta name="twitter:description" content="Draw a fish and watch it swim in the global tank with everyone else's fish. Create, share, and vote on fish drawings in this simple online drawing game.">
+    <meta name="twitter:image" content="https://drawafish.com/public/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://drawafish.com">
+    
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="icon" href="public/favicon.ico">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GS1GYSFBPX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date());
+
+      gtag('config', 'G-GS1GYSFBPX');
+    </script>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Draw a Fish Online - DrawAFish.com",
+      "alternateName": "DrawAFish",
+      "description": "Online fish drawing game where users can draw fish, watch them swim in virtual tanks, vote on community creations, and create custom aquariums",
+      "url": "https://drawafish.com",
+      "applicationCategory": "GameApplication",
+      "genre": "Drawing Game",
+      "operatingSystem": "Web Browser",
+      "browserRequirements": "HTML5 Canvas support",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "fifteen.games",
+        "url": "https://fifteen.games"
+      },
+      "keywords": "draw fish, fish drawing, online drawing tool, fish art, digital drawing, fish drawing game, fish tank game",
+      "screenshot": "https://drawafish.com/public/favicon.ico",
+      "featureList": [
+        "Draw a fish",
+        "Watch fish swim in global tank",
+        "Community voting system", 
+        "Animated fish tank display",
+        "User profiles and statistics",
+        "Custom fish tank collections",
+        "Share fish drawings with community"
+      ],
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://drawafish.com"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Artists, Game Players, Children, Adults"
+      },
+      "isAccessibleForFree": true,
+      "inLanguage": "en-US"
+    }
+    </script>
+    
+    <!-- Additional Schema for CreativeWork -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Fish Drawing Tool",
+      "description": "Online tool to draw fish and create digital fish art",
+      "url": "https://drawafish.com",
+      "creator": {
+        "@type": "Organization",
+        "name": "fifteen.games"
+      },
+      "about": "Fish Drawing",
+      "genre": "Digital Art Tool",
+      "isAccessibleForFree": true
+    }
+    </script>
+</head>
+<body>  
+  <main role="main">
+    <!-- Hidden SEO content for search engines -->
+    <div style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+      <h1>Draw a Fish virtual fishtank</h1>
+      <p>Draw a fish and watch it swim in the global tank with everyone else's fish. Create, share, and vote on fish drawings in this simple online drawing game.</p>
+      <p>Features: draw a fish tank, online fish sketching, digital fish art creation, fish drawing game, fish illustration maker, virtual fish tank, community fish gallery.</p>
+    </div>
+    
+    <div id="draw-ui">
+      <!-- The paint bar will be injected here by JS -->
+      <!-- Welcome back message for returning users -->
+      <div id="welcome-back-message" style="display: none; margin: 10px auto; padding: 8px 12px; background: #ffffcc; border: 1px solid #cccc99; border-radius: 4px; text-align: center; max-width: 400px; font-size: 12px; color: #666;">
+      </div>
+      
+      <section id="drawing-section">
+        <h1>Draw a Fish!</h1>
+        <h2>(facing right please)</h2>
+        <canvas id="draw-canvas" width="400" height="240" aria-label="Fish drawing canvas for creating digital fish art"></canvas>
+        <br><br>
+        
+        <nav role="navigation" aria-label="Action buttons">
+          <a href="tank.html" title="View Community Fish Tank">tank</a>
+          <button id="swim-btn" title="Make your fish swim in the tank">make it swim!</button>
+          <a href="rank.html" title="Vote on fish drawings">rank</a>
+          <a href="fishtanks.html" id="my-tanks-link" title="Create custom fish tanks">my tanks</a>
+        </nav>
+      </section>
+    </div>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="src/js/firebase-init.js"></script>
+  <script src="src/js/fish-utils.js"></script>
+  <script src="src/js/app.js"></script>
+  <script>
+    // Initialize navigation authentication
+    initializeAuthNavigation();
+  </script>
+</body>
+</html>
+    <script src="env-config.js"></script>

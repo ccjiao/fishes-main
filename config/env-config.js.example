@@ -1,0 +1,12 @@
+window.ENV = {
+  BACKEND_URL: "https://fishes-be-571679687712.northamerica-northeast1.run.app",
+  GOOGLE_CLIENT_ID: "571679687712-bhet9jnrul5gm1ijhjk6am28dfrtd88h.apps.googleusercontent.com",
+  FIREBASE_CONFIG: {
+    apiKey: "AIzaSyB0SvfVvI8Eq1ZUhzCgJHRqJKKhanWABTI",
+    authDomain: "checkboxgame.firebaseapp.com",
+    projectId: "checkboxgame",
+    storageBucket: "checkboxgame.firebasestorage.app",
+    messagingSenderId: "571679687712",
+    appId: "1:571679687712:web:68f1a057e0592d1739e845"
+  }
+}
