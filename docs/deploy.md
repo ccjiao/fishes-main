@@ -79,3 +79,56 @@ docker compose up -d --no-deps fishes-web
   - 在项目界面执行“重新部署/更新镜像”，完成后检查健康状态
   - 如需回滚，使用上一版本镜像标签或恢复上一次成功配置后重新部署
   - 如使用本地构建方案，重新部署会基于最新源码重新构建；基础镜像（`nginxinc/nginx-unprivileged:alpine`）会在 NAS 上自动拉取
+
+### Compose（默认网络版）备选片段
+当飞牛OS GUI不支持 external 网络时，使用下列片段（移除 `networks` 段）：
+```
+services:
+  fishes-web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: fishes-web
+    ports:
+      - "8080:8080"
+    volumes:
+      - /mnt/nas/fishes/html:/usr/share/nginx/html:ro
+      - /mnt/nas/fishes/logs:/var/log/nginx
+      - /mnt/nas/fishes/config/env-config.js:/usr/share/nginx/html/env-config.js:ro
+    healthcheck:
+      test: ["CMD-SHELL","wget -q --spider http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    restart: unless-stopped
+```
+
+### GitHub 远程构建（私有仓库）
+- 将 NAS 的 SSH 公钥添加为 GitHub 仓库的只读 Deploy Key 或绑定到你的账号
+- 在 Compose 中使用 SSH 上下文并开启 SSH 转发：
+  - `build.context: git@github.com:ccjiao/fishes-main.git#main`
+  - `build.ssh: ["default"]`
+- 要求启用 BuildKit；如 GUI 未启用，在 Docker 设置中开启或设置环境变量 `DOCKER_BUILDKIT=1`
+- 测试 SSH：在 NAS 终端运行 `ssh -T git@github.com` 应显示成功握手
+- 注意：不要在 Compose 中嵌入访问令牌；如必须使用 HTTPS+PAT，请改为在 NAS 上预先配置凭据并避免将令牌写入 Compose 文件
+
+### GitHub 公共仓库构建（HTTPS）
+- 公共仓库无需凭据，直接使用：
+  - `build.context: https://github.com/ccjiao/fishes-main.git#main`
+  - `build.dockerfile: docker/Dockerfile`
+- 仍需启用 BuildKit 以支持远程上下文；确保 NAS 能访问 `github.com:443`
+- 若 GUI 报告无法解析远程上下文：
+  - 检查是否启用 BuildKit
+  - 确认 DNS 与出站策略未拦截 GitHub
+
+### GitHub 远程构建（Tarball 模式，避开 Git/HTTP2）
+- 当遇到 `curl 16 Error in the HTTP2 framing layer` 或 `fatal: expected flush after ref listing` 时，改用 tarball：
+  - `build.context: https://github.com/ccjiao/fishes-main/archive/refs/heads/main.tar.gz`
+  - `build.dockerfile: docker/Dockerfile`
+- 该模式直接下载压缩包，避免在构建器内使用 Git 协议，常用于企业网络中间设备导致的 HTTP/2 问题

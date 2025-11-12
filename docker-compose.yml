@@ -1,7 +1,7 @@
 services:
   fishes-web:
     build:
-      context: .
+      context: https://github.com/ccjiao/fishes-main/archive/refs/heads/main.tar.gz
       dockerfile: docker/Dockerfile
     container_name: fishes-web
     ports:
@@ -11,7 +11,6 @@ services:
         aliases:
           - fishes-web
     volumes:
-      - /mnt/nas/fishes/html:/usr/share/nginx/html:ro
       - /mnt/nas/fishes/logs:/var/log/nginx
       - /mnt/nas/fishes/config/env-config.js:/usr/share/nginx/html/env-config.js:ro
     healthcheck:
